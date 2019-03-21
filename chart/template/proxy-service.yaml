@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: reverse-proxy
+  namespace: shoot--i355448--shoot
+  labels:
+    app: proxy
+    role: test
+spec:
+  ports:
+  - port: 9090
+    protocol: TCP
+    targetPort: api
+  selector:
+    app: proxy
+    role: test

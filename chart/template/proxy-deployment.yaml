@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reverse-proxy
+  namespace: shoot--i355448--shoot
+  labels:
+    app: proxy
+    role: test
+spec:
+  selector:
+    matchLabels:
+      app: proxy
+      role: test
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: proxy
+        role: test
+    spec:
+      containers:
+      - name: proxy
+        image: hisshadow85/proxy:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 500m
+            memory: 300Mi
+          requests:
+            cpu: 300m
+            memory: 200Mi
+        command: 
+        - /bin/proxy
+        - --url=http://kibana-logging:5601
+        - --port=9090
+        ports:
+        - containerPort: 9090
+          name: api 
+          protocol: TCP
